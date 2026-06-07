@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Form to Excel</title>
+</head>
+<body>
+  <h2>Feedback Form</h2>
+  <form action="save.php" method="get">
+    <label for="name">Name:</label>
+    <input type="text" name="name" required><br><br>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" required><br><br>
+
+    <label for="feedback">Feedback:</label><br>
+    <textarea name="feedback" rows="5" cols="30" required></textarea><br><br>
+
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
