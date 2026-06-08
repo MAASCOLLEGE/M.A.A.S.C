@@ -2,21 +2,63 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Form to Excel</title>
+  <title>Admission 2026-2027</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f9f9f9; }
+    .container { width: 600px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 8px; }
+    h2 { text-align: center; color: #003366; }
+    .note { color: red; text-align: center; margin-bottom: 20px; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    input, select, textarea { width: 100%; padding: 8px; margin-top: 5px; border: 1px solid #ccc; border-radius: 4px; }
+    .btn { margin-top: 20px; padding: 10px; width: 48%; border: none; border-radius: 4px; cursor: pointer; }
+    .register { background: #007bff; color: #fff; }
+    .login { background: #003366; color: #fff; float: right; }
+  </style>
 </head>
 <body>
-  <h2>Feedback Form</h2>
-  <form action="save.php" method="get">
-    <label for="name">Name:</label>
-    <input type="text" name="name" required><br><br>
+  <div class="container">
+    <h2>Agurchand Manmull Jain College</h2>
+    <p class="note">The Last Date for Registration will be 21.05.2026.<br>
+    Applications received from 22.05.2026 will be treated as LATE APPLICATION.</p>
+    <h3>Admission 2026-2027 - New Registration</h3>
+    <form action="admission.php" method="post">
+      <label>Application Category*</label>
+      <select name="category" required>
+        <option value="UG">Undergraduate</option>
+        <option value="PG">Postgraduate</option>
+        <option value="Diploma">Diploma</option>
+      </select>
 
-    <label for="email">Email:</label>
-    <input type="email" name="email" required><br><br>
+      <label>Applicant Name*</label>
+      <input type="text" name="name" required>
 
-    <label for="feedback">Feedback:</label><br>
-    <textarea name="feedback" rows="5" cols="30" required></textarea><br><br>
+      <label>Initial*</label>
+      <input type="text" name="initial" required>
 
-    <input type="submit" value="Submit">
-  </form>
+      <label>Community (As in Record)*</label>
+      <select name="community" required>
+        <option value="OC">OC</option>
+        <option value="BC">BC</option>
+        <option value="MBC">MBC</option>
+        <option value="SC">SC</option>
+        <option value="ST">ST</option>
+      </select>
+
+      <label>Date of Birth*</label>
+      <input type="date" name="dob" required>
+
+      <label>Country Code*</label>
+      <input type="text" name="country_code" value="91" required>
+
+      <label>Mobile Number*</label>
+      <input type="text" name="mobile" required>
+
+      <label>Email ID*</label>
+      <input type="email" name="email" required>
+
+      <button type="submit" class="btn register">Register</button>
+      <button type="button" class="btn login">Existing User (Login)</button>
+    </form>
+  </div>
 </body>
 </html>
