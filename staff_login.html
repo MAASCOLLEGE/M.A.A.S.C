@@ -94,6 +94,57 @@
       text-align: center;
       margin-top: 10px;
     }
+    .announcement {
+      width: 100%;
+      max-width: 750px;
+      height: 280px;
+      margin: 20px auto;
+      overflow: hidden;
+      border: 8px solid #FFD700;
+      background-color: #fffbea;
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .announcement h2 {
+      background-color: #FFD700;
+      margin: 0;
+      padding: 10px;
+      font-size: 25px;
+      text-align: center;
+      color: #000;
+      z-index: 2;
+      position: relative;
+    }
+
+    .announcement-body {
+      font-size: 50px;
+      position: relative;
+      height: 140px; /* space below heading */
+      overflow: hidden;
+    }
+
+    .announcement-content {
+      position: absolute;
+      width: 100%;
+      animation: scroll-up 10s linear infinite;
+    }
+
+    .announcement-content p {
+      text-align: left;
+      margin: 10px;
+      font-size: 30px;
+      color: #333;
+    }
+
+    @keyframes scroll-up {
+      0% {
+        top: 100%;
+      }
+      100% {
+        top: -100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -106,7 +157,7 @@
       <p align="center">A Co-Educational Institution | Tambaram, Chennai – 600 045</p>
       <p align="center">Staff Login</p>
       <div class="header-buttons">
-        <p align="center"><a href="examp.html"><button>Back To Home</button></a></p>
+        <p align="center"><a href="index.html"><button>Back To Home</button></a></p>
       </div>
     </div>
   </header>
@@ -114,7 +165,13 @@
   <!-- Main Content -->
   <div class="container">
     <div class="left-section">
-      <img src="logo.png".png" alt="Campus Illustration">
+      <div class="announcement">
+    <h2>📢 Announcements !</h2>
+    <div class="announcement-content">
+      <p>💲<a href="#">Semester Fees (General-Circular)</a></p>
+      <p> 🏛️<a href="#">Class Commencement Circular 2026-2027</a></p>
+    </div>
+  </div>
     </div>
     <div class="login-box">
       <h2>eVarsity<br>Student Login Page</h2>
@@ -141,7 +198,7 @@
       // Example credentials
       const users = {
         "Bc001": { password: "18012006", dashboard: "mk_dash.html" },
-        "Bc002": { password: "bp@bca", dashboard: "pb_dash.html" },
+        "Bc002": { password: "pb@bca", dashboard: "pb_dash.html" },
         "Bc003": { password: "gk@bca", dashboard: "gk_dash.html" },
         "Bc004": { password: "sv@bca", dashboard: "sv_dash.html" },
         "23P109": { password: "04022006", dashboard: "23p109.html" }
