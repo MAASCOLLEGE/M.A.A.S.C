@@ -96,15 +96,17 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #e9ecef;
+      background: #d8a419;
       padding: 40px;
     }
     .banner-text h2 {
       color: red;
+      align-items: center;
       font-size: 28px;
     }
     .banner-text p {
       color: #007bff;
+      align-items: center;
       font-size: 18px;
     }
     .know-more {
@@ -113,10 +115,7 @@
       padding: 10px 20px;
       cursor: pointer;
     }
-    .banner-image img {
-      max-width: 400px;
-    }
-
+  
     /* Enquiry Tab */
     .enquiry-tab {
       position: fixed;
@@ -317,7 +316,56 @@
       margin: 5px 0;
       font-size: 14px;
     }
+ .announcement {
+      width: 100%;
+      max-width: 750px;
+      height: 180px;
+      margin: 20px auto;
+      overflow: hidden;
+      border: 8px solid #FFD700;
+      background-color: #fffbea;
+      border-radius: 8px;
+      position: relative;
+    }
 
+    .announcement h2 {
+      background-color: #FFD700;
+      margin: 0;
+      padding: 10px;
+      font-size: 25px;
+      text-align: center;
+      color: #000;
+      z-index: 2;
+      position: relative;
+    }
+
+    .announcement-body {
+      font-size: 50px;
+      position: relative;
+      height: 140px; /* space below heading */
+      overflow: hidden;
+    }
+
+    .announcement-content {
+      position: absolute;
+      width: 100%;
+      animation: scroll-up 10s linear infinite;
+    }
+
+    .announcement-content p {
+      margin: 10px;
+      font-size: 30px;
+      color: #333;
+    }
+
+    @keyframes scroll-up {
+      0% {
+        top: 100%;
+      }
+      100% {
+        top: -100%;
+      }
+    }
   </style>
 </head>
 <body>
@@ -388,16 +436,12 @@
   </nav>
 
   <!-- Banner -->
-  <section class="banner">
-    <div class="banner-text">
-      <h2>ADMISSIONS OPEN 2026-27</h2>
-      <p>(Self Financing Stream)</p>
-      <button class="know-more">Know More</button>
+  <div class="announcement">
+    <h2>📢 Announcements !</h2>
+    <div class="announcement-content">
+      <p>💲Semester Fees (General-Circular)</p>
     </div>
-    <div class="banner-image">
-      <img src="banner.png".png" alt="Campus View">
-    </div>
-  </section>
+  </div>
 
   <!-- Admissions Enquiry Tab -->
   <div class="enquiry-tab">Admissions Enquiry</div>
@@ -501,7 +545,6 @@
 </div>
   
     <h1 align="center">❤️</h1>
-    <h1 align="center">|| M.A.A.S.C ||</h1>
-    <h2 align="center">Email : muraliartsandsciencecollege@gmail.com </h2>
+    <h1 align="center">|| M.A.A.S.C ||</h1>   
 </body>
 </html>
