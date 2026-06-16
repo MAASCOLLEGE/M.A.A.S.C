@@ -1,0 +1,296 @@
+<html>
+    <head>
+        <title>Attend Class</title>
+        <style>
+               body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+
+    /* Header */
+    .top-header {
+      display: flex;
+      align-items: center;
+      background: #f8f9fa;
+      padding: 15px;
+      border-bottom: 2px solid #ccc;
+    }
+    .logo {
+      height: 150px;
+      margin-right: 80px;
+    }
+    .college-info {
+      flex: 1;
+    }
+    .college-info h1 {
+      margin: 0;
+      color: #333;
+    }
+    .header-buttons {
+      margin-left: auto;
+    }
+body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #444;
+    }
+    .form-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      max-width: 600px;
+      margin: auto;
+    }
+    label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    select {
+      margin: 10px 0;
+      padding: 6px;
+      width: 200px;
+    }
+    table {
+      border-collapse: collapse;
+      margin-top: 30px;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background-color: #eaeaea;
+    }
+    .result-container {
+      margin-top: 20px;
+    }
+
+ </style>
+    </head>
+    <body>
+         <!-- Header -->
+  <header class="top-header">
+    <img src="logo.png" alt="College Logo" class="logo">
+    <div class="college-info">
+      <h1 align="center">MURALI ARTS AND SCIENCE COLLEGE</h1>
+      <p align="center">Affiliated to University of Madras | NAAC A+</p>
+      <p align="center">A Co-Educational Institution | Tambaram, Chennai – 600 045</p>
+      <p align="center">Attend Class</p>
+      <div class="header-buttons">
+        <p align="center"><a href="examp.html"><button>Back To Home</button></a></p>
+      </div>
+    </div>
+  </header>
+ <h1>College Department Selection</h1>
+
+  <div class="form-container">
+    <!-- Department Dropdown -->
+    <label for="dept">Department:</label>
+    <select id="dept" onchange="showYear()">
+      <option value="">--Select Department--</option>
+      <option value="B.Com">B.com-General</option>
+      <option value="BCA">B.com-Bank Management</option>
+      <option value="BCA">B.com-Marketing Management</option>
+      <option value="BCA">B.com-Corporate Secretaryship</option>
+      <option value="BCA">B.com-Accounting & Finance</option>
+      <option value="BCA">B.com-ISM</option>
+      <option value="BCA">B.com-Computer Applications</option>
+      <option value="BCA">B.com-Bussiness Adminstrations</option>
+      <option value="BCA">BCA-Computer Applications</option>
+      <option value="BCA">BCA-Computer Applications</option>
+      </select><br>
+
+    <!-- Year Dropdown -->
+    <label for="year" style="display:none;">Year:</label>
+    <select id="year" style="display:none;" onchange="showSection()">
+      <option value="">--Select Year--</option>
+      <option value="I">I</option>
+      <option value="II">II</option>
+      <option value="III">III</option>
+    </select><br>
+
+    <!-- Section Dropdown -->
+    <label for="section" style="display:none;">Section:</label>
+    <select id="section" style="display:none;" onchange="showTable()">
+      <option value="">--Select Section--</option>
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+      <option value="D">D</option>
+    </select>
+  </div>
+
+  <!-- Table -->
+  <div class="result-container" id="result"></div>
+
+  <script>
+      function showYear() {
+      const dept = document.getElementById("dept").value;
+      const year = document.getElementById("year");
+      const yearLabel = document.querySelector("label[for='year']");
+      const section = document.getElementById("section");
+      const sectionLabel = document.querySelector("label[for='section']");
+      const result = document.getElementById("result");
+
+      if (dept) {
+        year.style.display = "inline";
+        yearLabel.style.display = "inline";
+        section.style.display = "none";
+        sectionLabel.style.display = "none";
+        result.innerHTML = "";
+      } else {
+        year.style.display = "none";
+        yearLabel.style.display = "none";
+        section.style.display = "none";
+        sectionLabel.style.display = "none";
+        result.innerHTML = "";
+      }
+    }
+
+    function showSection() {
+      const year = document.getElementById("year").value;
+      const section = document.getElementById("section");
+      const sectionLabel = document.querySelector("label[for='section']");
+      const result = document.getElementById("result");
+
+      if (year) {
+        section.style.display = "inline";
+        sectionLabel.style.display = "inline";
+        result.innerHTML = "";
+      } else {
+        section.style.display = "none";
+        sectionLabel.style.display = "none";
+        result.innerHTML = "";
+      }
+    }
+
+    function showTable() {
+      const dept = document.getElementById("dept").value;
+      const year = document.getElementById("year").value;
+      const section = document.getElementById("section").value;
+      const result = document.getElementById("result");
+
+      if (section) {
+        let tableContent = "";
+
+        // BCA Section-specific tables
+        if (dept === "BCA" && section === "A") {
+          tableContent = `
+            <h2 align="center">Scroll Down 👇<br><br><br><br><br><br><br>Class Info </h2>
+            <h3>Department :BCA</h3><h3>Year : 01 </h3><h3>Section : A<h3><h3>Class Incharge : Dr.R.MURALIKRISHNAN</h3>
+            <h2 align="center">Attend Class </h2>
+            <table>
+              <tr><th></th><th>01.30 - 02.20</th><th>02.20 - 03.10</th><th>03.30 - 04.20</th><th>04.20 - 05.10</th><th>05.10 - 06.00</th></tr>
+              <tr><th>Day Order / Hour </th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+              <tr><td>1</td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">120E1B - STATISTIC I</a></td><td><a href="#">100L1A - TAMIL I</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="#">120S1A - FUND.COMP</a></td></tr>
+              <tr><td>2</td><td><a href="#">100L1A - TAMIL 1</a></td><td><a href="#">120E1B - STATISTIC I</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td></tr>
+              <tr><td>3</td><td><a href="#">100S1A - FUND.COMP</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="#">100L1A - TAMIL 1</a></td><td><a href="#">120E1B - STATISTICS 1 </a></td></tr>
+              <tr><td>4</td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB </a></td><td><a href="#">120E1B - STATISTICS I</a></td><td><a href="#">100L1Z - ENGLISH 1</a></td><td><a href="#">100L1A - TAMIL 1 </a></td></tr>
+              <tr><td>5</td><td><a href="#">100L1Z - ENGLISH 1 </a></td><td><a href="#">100L1A - TAMIL 1 </a></td><td><a href="#">120S1B - SEC</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">120E1B - STATISTICS 1 </a></td></tr>
+              <tr><td>6</td><td><a href="#">120S1B - SEC </a></td><td><a href="#">100L1A - TAMIL 1 </a></td><td><a href="#">100L1Z - ENGLISH 1</a></td><td><a href="#">120E1B - STATISTIC 1</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">12C1A - PYTHON</a></td></tr>
+            </table>`;
+        } else if (dept === "BCA" && section === "B") {
+          tableContent = `
+          <h2 align="center">Scroll Down 👇<br><br><br><br><br><br><br>Class Info </h2>
+            <h3>Department :BCA</h3><h3>Year : 01 </h3><h3>Section : B<h3><h3>Class Incharge : Ms.P.BANU PRIYA</h3>
+            <h2 align="center">Attend Class </h2>
+            <table>
+             <tr><th></th><th>01.30 - 02.20</th><th>02.20 - 03.10</th><th>03.30 - 04.20</th><th>04.20 - 05.10</th><th>05.10 - 06.00</th></tr>
+              <tr><th>Day Order / Hour </th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+              <tr><td>1</td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">120E1B - STATISTIC I</a></td><td><a href="#">100L1A - TAMIL I</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="#">120S1A - FUND.COMP</a></td></tr>
+              <tr><td>2</td><td><a href="#">100L1A - TAMIL 1</a></td><td><a href="#">120E1B - STATISTIC I</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td></tr>
+              <tr><td>3</td><td><a href="#">100S1A - FUND.COMP</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="#">100L1A - TAMIL 1</a></td><td><a href="#">120E1B - STATISTICS 1 </a></td></tr>
+              <tr><td>4</td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB </a></td><td><a href="#">120E1B - STATISTICS I</a></td><td><a href="#">100L1Z - ENGLISH 1</a></td><td><a href="#">100L1A - TAMIL 1 </a></td></tr>
+              <tr><td>5</td><td><a href="#">100L1Z - ENGLISH 1 </a></td><td><a href="#">100L1A - TAMIL 1 </a></td><td><a href="#">120S1B - SEC</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">120E1B - STATISTICS 1 </a></td></tr>
+              <tr><td>6</td><td><a href="#">120S1B - SEC </a></td><td><a href="#">100L1A - TAMIL 1 </a></td><td><a href="#">100L1Z - ENGLISH 1</a></td><td><a href="#">120E1B - STATISTIC 1</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">12C1A - PYTHON</a></td></tr>
+            </table>`;
+        }
+        else if (dept === "BCA" && section === "C") {
+          tableContent = `
+            <h2 align="center">Scroll Down 👇<br><br><br><br><br><br><br>Class Info </h2>
+            <h3>Department :BCA</h3><h3>Year : 01 </h3><h3>Section : C<h3><h3>Class Incharge : Ms.G.KOMALA</h3>
+            <h2 align="center">Attend Class </h2>
+            <table>
+             <tr><th></th><th>01.30 - 02.20</th><th>02.20 - 03.10</th><th>03.30 - 04.20</th><th>04.20 - 05.10</th><th>05.10 - 06.00</th></tr>
+              <tr><th>Day Order / Hour </th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+              <tr><td>1</td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">120E1B - STATISTIC I</a></td><td><a href="#">100L1A - TAMIL I</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="#">120S1A - FUND.COMP</a></td></tr>
+              <tr><td>2</td><td><a href="#">100L1A - TAMIL 1</a></td><td><a href="#">120E1B - STATISTIC I</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td></tr>
+              <tr><td>3</td><td><a href="#">100S1A - FUND.COMP</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="#">100L1A - TAMIL 1</a></td><td><a href="#">120E1B - STATISTICS 1 </a></td></tr>
+              <tr><td>4</td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB </a></td><td><a href="#">120E1B - STATISTICS I</a></td><td><a href="#">100L1Z - ENGLISH 1</a></td><td><a href="#">100L1A - TAMIL 1 </a></td></tr>
+              <tr><td>5</td><td><a href="#">100L1Z - ENGLISH 1 </a></td><td><a href="#">100L1A - TAMIL 1 </a></td><td><a href="#">120S1B - SEC</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">120E1B - STATISTICS 1 </a></td></tr>
+              <tr><td>6</td><td><a href="#">120S1B - SEC </a></td><td><a href="#">100L1A - TAMIL 1 </a></td><td><a href="#">100L1Z - ENGLISH 1</a></td><td><a href="#">120E1B - STATISTIC 1</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">12C1A - PYTHON</a></td></tr>
+            </table>`;
+        }
+        else if (dept === "BCA" && section === "D") {
+          tableContent = `
+           <h2 align="center">Scroll Down 👇<br><br><br><br><br><br><br>Class Info </h2>
+            <h3>Department :BCA</h3><h3>Year : 01 </h3><h3>Section : D<h3><h3>Class Incharge : Mr.S.VENRAJ</h3>
+            <h2 align="center">Attend Class </h2>
+            <table>
+             <tr><th></th><th>01.30 - 02.20</th><th>02.20 - 03.10</th><th>03.30 - 04.20</th><th>04.20 - 05.10</th><th>05.10 - 06.00</th></tr>
+              <tr><th>Day Order / Hour </th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+              <tr><td>1</td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">120E1B - STATISTIC I</a></td><td><a href="#">100L1A - TAMIL I</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="#">120S1A - FUND.COMP</a></td></tr>
+              <tr><td>2</td><td><a href="#">100L1A - TAMIL 1</a></td><td><a href="#">120E1B - STATISTIC I</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td></tr>
+              <tr><td>3</td><td><a href="#">100S1A - FUND.COMP</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">100L1Z - ENGLISH I</a></td><td><a href="#">100L1A - TAMIL 1</a></td><td><a href="#">120E1B - STATISTICS 1 </a></td></tr>
+              <tr><td>4</td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C11 - PYTHON LAB </a></td><td><a href="#">120E1B - STATISTICS I</a></td><td><a href="#">100L1Z - ENGLISH 1</a></td><td><a href="#">100L1A - TAMIL 1 </a></td></tr>
+              <tr><td>5</td><td><a href="#">100L1Z - ENGLISH 1 </a></td><td><a href="#">100L1A - TAMIL 1 </a></td><td><a href="#">120S1B - SEC</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">120C1A - PYTHON</a></td><td><a href="#">120E1B - STATISTICS 1 </a></td></tr>
+              <tr><td>6</td><td><a href="#">120S1B - SEC </a></td><td><a href="#">100L1A - TAMIL 1 </a></td><td><a href="#">100L1Z - ENGLISH 1</a></td><td><a href="#">120E1B - STATISTIC 1</a></td><td><a href="https://us05web.zoom.us/j/82129352214?pwd=aPH6MQ1vFkxpS48nMeGpibPdhleVq4.1">12C1A - PYTHON</a></td></tr>
+            </table>`;
+        }
+
+        // BSc Section-specific tables
+        else if (dept === "BSc" && section === "A") {
+          tableContent = `
+            <h3>BSc - ${year} Year, Section A</h3>
+            <table>
+              <tr><th>Roll No</th><th>Name</th><th>Physics Lab Marks</th></tr>
+              <tr><td>301</td><td>Rahul</td><td>88</td></tr>
+              <tr><td>302</td><td>Anjali</td><td>92</td></tr>
+            </table>`;
+        } else if (dept === "BSc" && section === "B") {
+          tableContent = `
+            <h3>BSc - ${year} Year, Section B</h3>
+            <table>
+              <tr><th>Roll No</th><th>Name</th><th>Chemistry Lab Marks</th><th>Practical Exam</th></tr>
+              <tr><td>401</td><td>Vikram</td><td>85</td><td>Pass</td></tr>
+              <tr><td>402</td><td>Meena</td><td>90</td><td>Pass</td></tr>
+            </table>`;
+        }
+
+        // BA Section-specific tables
+        else if (dept === "BA" && section === "A") {
+          tableContent = `
+            <h3>BA - ${year} Year, Section A</h3>
+            <table>
+              <tr><th>Roll No</th><th>Name</th><th>Attendance %</th></tr>
+              <tr><td>501</td><td>Suresh</td><td>95%</td></tr>
+              <tr><td>502</td><td>Geetha</td><td>89%</td></tr>
+            </table>`;
+        } else if (dept === "BA" && section === "B") {
+          tableContent = `
+            <h3>BA - ${year} Year, Section B</h3>
+            <table>
+              <tr><th>Roll No</th><th>Name</th><th>Assignment Marks</th><th>Remarks</th></tr>
+              <tr><td>601</td><td>Ravi</td><td>78</td><td>Good</td></tr>
+              <tr><td>602</td><td>Latha</td><td>82</td><td>Excellent</td></tr>
+            </table>`;
+        }
+
+        result.innerHTML = tableContent;
+      } else {
+        result.innerHTML = "";
+      }
+    }
+  </script>
+    </body>
+</html>
