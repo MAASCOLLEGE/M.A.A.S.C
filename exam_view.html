@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Exam Schedule View</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f4f6f9;
+    padding:20px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+}
+
+h2{
+    text-align:center;
+}
+
+select{
+    width:100%;
+    padding:8px;
+    margin:6px 0;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+    table-layout:fixed;
+}
+
+th,td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+th{
+    background:#f0f0f0;
+}
+
+/* column alignment */
+th:nth-child(1), td:nth-child(1){width:15%;}
+th:nth-child(2), td:nth-child(2){width:25%;}
+th:nth-child(3), td:nth-child(3){width:15%;}
+th:nth-child(4), td:nth-child(4){width:20%;}
+th:nth-child(5), td:nth-child(5){width:25%;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Exam Schedule</h2>
+
+<select id="dept" onchange="loadExam()">
+    <option value="CSE">CSE</option>
+    <option value="ECE">ECE</option>
+    <option value="BCA">BCA</option>
+</select>
+
+<select id="examType" onchange="loadExam()">
+    <option value="Internal">Internal Exam</option>
+    <option value="Model">Model Exam</option>
+    <option value="Semester">Semester Exam</option>
+</select>
+
+<div class="table-wrapper">
+
+<table>
+<thead>
+<tr>
+<th>Subject Code</th>
+<th>Subject Name</th>
+<th>Date</th>
+<th>Timing</th>
+<th>Platform</th>
+</tr>
+</thead>
+
+<tbody id="tbody"></tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { db } from "./firebase-config.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+/* ✅ DATE FORMAT FUNCTION */
+function formatDate(dateStr){
+
+    if(!dateStr) return "";
+
+    const d = new Date(dateStr);
+
+    let day = String(d.getDate()).padStart(2,'0');
+    let month = String(d.getMonth()+1).padStart(2,'0');
+    let year = d.getFullYear();
+
+    return `${day}.${month}.${year}`;
+}
+
+window.loadExam = async function(){
+
+    const dept = document.getElementById("dept").value;
+    const examType = document.getElementById("examType").value;
+
+    const snap = await getDoc(doc(db,"exams",dept,examType,"schedule"));
+
+    const tbody = document.getElementById("tbody");
+    tbody.innerHTML = "";
+
+    if(!snap.exists()){
+        tbody.innerHTML = `
+        <tr>
+            <td colspan="5">No Exam Schedule Found</td>
+        </tr>`;
+        return;
+    }
+
+    const data = snap.data();
+
+    for(let key in data){
+
+        let d = data[key];
+
+        tbody.innerHTML += `
+        <tr>
+            <td>${d.SubjectCode}</td>
+            <td>${d.SubjectName}</td>
+            <td>${formatDate(d.Date)}</td>
+            <td>${d.Timing}</td>
+            <td>${d.Platform}</td>
+        </tr>
+        `;
+    }
+};
+
+/* auto load */
+loadExam();
+
+</script>
+
+</body>
+</html>
