@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Update Result</title>
+
+<style>
+body{
+    font-family: Arial;
+    background:#f4f6f9;
+    padding:20px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:8px;
+    margin:6px 0;
+    box-sizing:border-box;
+}
+
+button{
+    padding:10px 15px;
+    margin-top:10px;
+    cursor:pointer;
+    border:none;
+}
+
+.search{
+    background:#007bff;
+    color:white;
+}
+
+.save{
+    background:green;
+    color:white;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+    table-layout:fixed;
+}
+
+th,td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align:center;
+    vertical-align:middle;
+}
+
+th{
+    background:#f0f0f0;
+}
+
+/* Column alignment fix */
+th:nth-child(1), td:nth-child(1){ width:25%; }
+th:nth-child(2), td:nth-child(2),
+th:nth-child(3), td:nth-child(3),
+th:nth-child(4), td:nth-child(4),
+th:nth-child(5), td:nth-child(5){ width:18.75%; }
+
+td input{
+    width:90%;
+    padding:6px;
+    text-align:center;
+    box-sizing:border-box;
+}
+ body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+
+    /* Header */
+    .top-header {
+      display: flex;
+      align-items: center;
+      background: #f8f9fa;
+      padding: 15px;
+      border-bottom: 2px solid #ccc;
+    }
+    .logo {
+      height: 150px;
+      margin-right: 80px;
+    }
+    .college-info {
+      flex: 1;
+    }
+    .college-info h1 {
+      margin: 0;
+      color: #333;
+    }
+    .header-buttons {
+      margin-left: auto;
+    }
+
+</style>
+</head>
+
+<body>
+     <header class="top-header">
+    <img src="logo.png" alt="College Logo" class="logo">
+    <div class="college-info">
+      <h1 align="center">MURALI ARTS AND SCIENCE COLLEGE</h1>
+      <p align="center">Affiliated to University of Madras | NAAC A+</p>
+      <p align="center">A Co-Educational Institution | Tambaram, Chennai – 600 045</p>
+            <div class="header-buttons">
+        <p align="center"><a href="index.html"><button>Logout</button></a></p>
+      </div>
+    </div>
+  </header>
+  <br>
+  <br>
+<div class="container">
+
+<div class="container">
+
+<h2>Update Student Result</h2>
+
+<input type="text" id="regno" placeholder="Enter Register Number">
+<button class="search" onclick="loadData()">Search</button>
+
+<hr>
+
+<input type="text" id="name" placeholder="Student Name">
+<input type="date" id="dob">
+
+<table>
+<thead>
+<tr>
+<th>Subject</th>
+<th>IA</th>
+<th>UE</th>
+<th>TOTAL</th>
+<th>RESULT</th>
+</tr>
+</thead>
+
+<tbody id="tbody"></tbody>
+
+</table>
+
+<button class="save" onclick="saveUpdate()">Save Update</button>
+
+</div>
+
+<script type="module">
+
+import { db } from "./firebase-config.js";
+import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+let currentReg = "";
+let studentData = {};
+
+window.loadData = async function(){
+
+    const regno = document.getElementById("regno").value;
+    currentReg = regno;
+
+    const snap = await getDoc(doc(db,"results",regno));
+
+    if(!snap.exists()){
+        alert("Student Not Found");
+        return;
+    }
+
+    studentData = snap.data();
+
+    document.getElementById("name").value = studentData["Name"];
+    document.getElementById("dob").value = studentData["DOB"];
+
+    const tbody = document.getElementById("tbody");
+    tbody.innerHTML = "";
+
+    for(let sub in studentData.Subjects){
+
+        let s = studentData.Subjects[sub];
+
+        tbody.innerHTML += `
+        <tr>
+            <td><b>${sub}</b></td>
+            <td><input id="ia_${sub}" value="${s.IA}" oninput="calc('${sub}')"></td>
+            <td><input id="ue_${sub}" value="${s.UE}" oninput="calc('${sub}')"></td>
+            <td id="tot_${sub}">${s.TOTAL}</td>
+            <td id="res_${sub}">${s.Result}</td>
+        </tr>
+        `;
+    }
+};
+
+window.calc = function(sub){
+
+    let ia = Number(document.getElementById("ia_"+sub).value) || 0;
+    let ue = Number(document.getElementById("ue_"+sub).value) || 0;
+
+    let total = ia + ue;
+
+    document.getElementById("tot_"+sub).innerText = total;
+
+    document.getElementById("res_"+sub).innerText =
+        (total >= 40 && ia > 10) ? "PASS" : "FAIL";
+};
+
+window.saveUpdate = async function(){
+
+    let updatedSubjects = {};
+
+    for(let sub in studentData.Subjects){
+
+        let ia = Number(document.getElementById("ia_"+sub).value) || 0;
+        let ue = Number(document.getElementById("ue_"+sub).value) || 0;
+
+        let total = ia + ue;
+
+        updatedSubjects[sub] = {
+            IA: ia,
+            UE: ue,
+            TOTAL: total,
+            Result: (total >= 40 && ia > 10) ? "PASS" : "FAIL"
+        };
+    }
+
+    await setDoc(doc(db,"results",currentReg), {
+        Name: document.getElementById("name").value,
+        "Reg No": currentReg,
+        DOB: document.getElementById("dob").value,
+        Subjects: updatedSubjects
+    });
+
+    alert("Result Updated Successfully");
+};
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>MAASC Staff Result Entry</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f6f9;
+    margin:0;
+    padding:20px;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h2{
+    text-align:center;
+}
+
+input{
+    width:100%;
+    padding:8px;
+    margin:6px 0;
+    box-sizing:border-box;
+}
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+    min-width:700px;
+}
+
+th,td{
+    border:1px solid #ccc;
+    padding:10px;
+    text-align:center;
+}
+
+th{
+    background:#f0f0f0;
+}
+
+button{
+    padding:10px 15px;
+    margin-top:10px;
+    margin-right:10px;
+    cursor:pointer;
+    border:none;
+    border-radius:5px;
+}
+
+.add{ background:#007bff; color:white; }
+.save{ background:green; color:white; }
+.reset{ background:red; color:white; }
+
+ body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+    }
+
+    /* Header */
+    .top-header {
+      display: flex;
+      align-items: center;
+      background: #f8f9fa;
+      padding: 15px;
+      border-bottom: 2px solid #ccc;
+    }
+    .logo {
+      height: 150px;
+      margin-right: 80px;
+    }
+    .college-info {
+      flex: 1;
+    }
+    .college-info h1 {
+      margin: 0;
+      color: #333;
+    }
+    .header-buttons {
+      margin-left: auto;
+    }
+
+</style>
+</head>
+
+<body>
+ <header class="top-header">
+    <img src="logo.png" alt="College Logo" class="logo">
+    <div class="college-info">
+      <h1 align="center">MURALI ARTS AND SCIENCE COLLEGE</h1>
+      <p align="center">Affiliated to University of Madras | NAAC A+</p>
+      <p align="center">A Co-Educational Institution | Tambaram, Chennai – 600 045</p>
+            <div class="header-buttons">
+        <p align="center"><a href="index.html"><button>Logout</button></a></p>
+      </div>
+    </div>
+  </header>
+  <br>
+  <br>
+<div class="container">
+
+<h2>MAASC Staff Result Entry</h2>
+
+<input type="text" id="name" placeholder="Student Name">
+<input type="text" id="regno" placeholder="Register Number">
+<input type="date" id="dob">
+
+<div class="table-wrapper">
+<table id="marksTable">
+
+<thead>
+<tr>
+<th>Subject Code</th>
+<th>IA</th>
+<th>UE</th>
+<th>TOTAL</th>
+<th>RESULT</th>
+</tr>
+</thead>
+
+<tbody></tbody>
+
+</table>
+</div>
+
+<button class="add" onclick="addRow()">Add Row</button>
+<button class="save" onclick="saveData()">Save Result</button>
+<button class="reset" onclick="resetForm()">Reset</button>
+
+</div>
+
+<script type="module">
+
+import { db } from "./firebase-config.js";
+import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+let row = 0;
+
+window.addRow = function(){
+
+    row++;
+
+    const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+        <td><input type="text" id="sub${row}"></td>
+        <td><input type="number" id="ia${row}"></td>
+        <td><input type="number" id="ue${row}"></td>
+        <td><input type="number" id="tot${row}" readonly></td>
+        <td><input type="text" id="res${row}" readonly></td>
+    `;
+
+    document.querySelector("#marksTable tbody").appendChild(tr);
+
+    document.getElementById("ia"+row).addEventListener("input", ()=>calc(row));
+    document.getElementById("ue"+row).addEventListener("input", ()=>calc(row));
+}
+
+function calc(i){
+
+    let ia = Number(document.getElementById("ia"+i).value) || 0;
+    let ue = Number(document.getElementById("ue"+i).value) || 0;
+
+    let tot = ia + ue;
+
+    document.getElementById("tot"+i).value = tot;
+
+    let result = (tot >= 40 && ia >=10) ? "PASS" : "FAIL";
+
+    document.getElementById("res"+i).value = result;
+}
+
+window.saveData = async function(){
+
+    const name = document.getElementById("name").value;
+    const regno = document.getElementById("regno").value;
+    const dob = document.getElementById("dob").value;
+
+    let Subjects = {};
+
+    for(let i=1;i<=row;i++){
+
+        let code = document.getElementById("sub"+i).value;
+        if(!code) continue;
+
+        let ia = Number(document.getElementById("ia"+i).value) || 0;
+        let ue = Number(document.getElementById("ue"+i).value) || 0;
+        let tot = ia + ue;
+
+        let result = (tot >= 40 && ia >= 10) ? "PASS" : "FAIL";
+
+        Subjects[code] = {
+            IA: ia,
+            UE: ue,
+            TOTAL: tot,
+            Result: result
+        };
+    }
+
+    await setDoc(doc(db,"results",regno), {
+        "Name": name,
+        "Reg No": regno,
+        "DOB": dob,
+        "Subjects": Subjects
+    });
+
+    alert("Result Saved Successfully");
+};
+
+window.resetForm = function(){
+
+    document.getElementById("name").value = "";
+    document.getElementById("regno").value = "";
+    document.getElementById("dob").value = "";
+
+    document.querySelector("#marksTable tbody").innerHTML = "";
+
+    row = 0;
+
+    addRow();
+
+    alert("Form Reset Successfully");
+};
+
+addRow();
+
+</script>
+
+</body>
+</html>
