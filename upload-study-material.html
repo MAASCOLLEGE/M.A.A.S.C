@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Admin Upload Study Materials</title>
+
+<style>
+body{
+    font-family:Arial;
+    background:#f4f6f9;
+    padding:20px;
+}
+.container{
+    max-width:1000px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+h2{text-align:center}
+
+.controls{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+select,input,button{
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+}
+
+button{
+    background:green;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>📤 Upload Study Materials</h2>
+
+<div class="controls">
+
+<!-- FULL DEPARTMENT LIST (YOUR EXACT ONE) -->
+<select id="dept">
+    <option value="BCOM-GENERAL">B.Com General</option>
+    <option value="BCOM-BM">B.Com BM</option>
+    <option value="BCOM-MM">B.Com MM</option>
+    <option value="BCOM-CS">B.Com CS</option>
+    <option value="BCOM-AF">B.Com A&F</option>
+    <option value="BCOM-ISM">B.Com ISM</option>
+    <option value="BCOM-CA">B.Com CA</option>
+    <option value="BCOM-BUSAD">B.Com BUS.AD</option>
+
+    <option value="BA-DEFENCE">B.A DEFENCE</option>
+    <option value="BA-PUBAD">B.A PUB.AD</option>
+    <option value="BA-TAMIL">B.A TAMIL</option>
+    <option value="BA-TOURISM">B.A TOURISM</option>
+
+    <option value="BSC-CS">B.Sc CS</option>
+    <option value="BSC-CS-AI">B.Sc CS WITH AI</option>
+    <option value="BSC-CRIMINOLOGY">B.Sc CRIMINOLOGY</option>
+    <option value="BSC-SA">B.Sc SA</option>
+    <option value="BSC-PHYS-CA">B.Sc PHYS WITH CA</option>
+    <option value="BSC-MATHS-CA">B.Sc MATHS WITH CA</option>
+    <option value="BSC-ELEC-AI">B.Sc ELECTRONICS WITH AI</option>
+    <option value="BSC-VISCOM">B.Sc VISCOM</option>
+    <option value="BSC-ELECTRONIC-MEDIA">B.Sc ELECTRONIC MEDIA</option>
+    <option value="BSC-IDD">B.Sc IDD</option>
+    <option value="BSC-PHYSICS">B.Sc PHYSICS</option>
+
+    <option value="BCA">BCA COMPUTER APPLICATION</option>
+</select>
+
+<!-- FULL EXAM TYPE LIST (YOUR EXACT ONE) -->
+<select id="examType">
+    <option value="CYCLIC-TEST-01">CYCLIC TEST 01</option>
+    <option value="CYCLIC-TEST-02">CYCLIC TEST 02</option>
+
+    <option value="INTERNAL-TEST-01">INTERNAL TEST 01</option>
+    <option value="INTERNAL-TEST-02">INTERNAL TEST 02</option>
+
+    <option value="MODEL-EXAM">MODEL EXAM</option>
+
+    <option value="SEMESTER-EXAM">SEMESTER EXAM</option>
+</select>
+
+</div>
+
+<input id="subject" placeholder="Subject Name">
+<input type="file" id="file">
+
+<button onclick="uploadFile()">UPLOAD</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import { getStorage, ref, uploadBytes, getDownloadURL }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT",
+  storageBucket: "YOUR_PROJECT.appspot.com"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+window.uploadFile = async function(){
+
+    const dept = document.getElementById("dept").value;
+    const examType = document.getElementById("examType").value;
+    const subject = document.getElementById("subject").value;
+    const file = document.getElementById("file").files[0];
+
+    if(!dept || !examType || !subject || !file){
+        alert("Fill all fields");
+        return;
+    }
+
+    try {
+
+        const path = `study-materials/${dept}/${examType}/${subject}/${file.name}`;
+
+        const fileRef = ref(storage, path);
+
+        await uploadBytes(fileRef, file);
+
+        const url = await getDownloadURL(fileRef);
+
+        const docRef = doc(db,"studyMaterials",dept,examType,subject);
+
+        const snap = await getDoc(docRef);
+
+        let files = [];
+
+        if(snap.exists()){
+            files = snap.data().files || [];
+        }
+
+        files.push({
+            name:file.name,
+            url:url
+        });
+
+        await setDoc(docRef,{ files });
+
+        alert("UPLOAD SUCCESS");
+
+    } catch(err){
+        console.error(err);
+        alert("Upload Failed: " + err.message);
+    }
+};
+
+</script>
+
+</body>
+</html>
