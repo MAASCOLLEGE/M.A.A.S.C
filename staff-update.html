@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Staff Update</title>
+
+<style>
+body{
+font-family:Arial;
+padding:20px;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:8px 0;
+}
+
+button{
+padding:10px 20px;
+background:#500454;
+color:white;
+border:none;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Update Staff</h2>
+
+<input type="text" id="searchId" placeholder="Enter Staff ID">
+
+<button onclick="loadStaff()">Search</button>
+
+<hr>
+
+<input type="text" id="name" placeholder="Staff Name">
+
+<select id="department">
+<option>B.Com General</option>
+<option>B.Com BM</option>
+<option>B.Com MM</option>
+<option>B.Com CS</option>
+<option>B.Com A&F</option>
+<option>B.Com ISM</option>
+<option>B.Com CA</option>
+<option>B.Com BUS.AD</option>
+<option>B.A DEFENCE</option>
+<option>B.A PUB.AD</option>
+<option>B.A TAMIL</option>
+<option>B.A TOURSIM</option>
+<option>B.Sc CS</option>
+<option>B.Sc CS WITH AI</option>
+<option>B.Sc CRIMINOLOGY</option>
+<option>B.Sc SA</option>
+<option>B.Sc PHYS WITH CA</option>
+<option>B.Sc MATHS WITH CA</option>
+<option>B.Sc ELECTRONICS WITH AI</option>
+<option>B.Sc VISCOM</option>
+<option>B.Sc ELECTRONIC MEDIA</option>
+<option>B.Sc IDD</option>
+<option>B.Sc PHYSICS</option>
+<option>BCA COMPUTER APPLICATION</option>
+</select>
+
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="updateStaff()">Update Staff</button>
+
+<script type="module">
+
+import { db } from "./firebase-config.js";
+
+import {
+doc,
+getDoc,
+updateDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+let currentId="";
+
+window.loadStaff=async function(){
+
+currentId=document.getElementById("searchId").value;
+
+const snap=
+await getDoc(doc(db,"staff",currentId));
+
+if(!snap.exists()){
+alert("Staff Not Found");
+return;
+}
+
+const data=snap.data();
+
+document.getElementById("name").value=data.name;
+document.getElementById("department").value=data.department;
+document.getElementById("password").value=data.password;
+
+};
+
+window.updateStaff=async function(){
+
+await updateDoc(doc(db,"staff",currentId),{
+
+name:document.getElementById("name").value,
+
+department:document.getElementById("department").value,
+
+password:document.getElementById("password").value
+
+});
+
+alert("Staff Updated Successfully");
+
+};
+
+</script>
+
+</body>
+</html>

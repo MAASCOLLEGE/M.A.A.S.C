@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Staff List</title>
+
+<style>
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+border:1px solid #ccc;
+padding:10px;
+text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Staff List</h2>
+
+<table>
+
+<thead>
+<tr>
+<th>Staff ID</th>
+<th>Name</th>
+<th>Department</th>
+</tr>
+</thead>
+
+<tbody id="tbody"></tbody>
+
+</table>
+
+<script type="module">
+
+import { db } from "./firebase-config.js";
+
+import {
+collection,
+getDocs
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const tbody=document.getElementById("tbody");
+
+const querySnapshot=
+await getDocs(collection(db,"staff"));
+
+querySnapshot.forEach((docu)=>{
+
+const data=docu.data();
+
+tbody.innerHTML+=`
+<tr>
+<td>${data.staffId}</td>
+<td>${data.name}</td>
+<td>${data.department}</td>
+</tr>
+`;
+
+});
+
+</script>
+
+</body>
+</html>
