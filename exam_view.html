@@ -135,7 +135,6 @@ th:nth-child(5), td:nth-child(5){width:25%;}
 <th>Subject Name</th>
 <th>Date</th>
 <th>Timing</th>
-<th>Action</th>
 </tr>
 </thead>
 
@@ -209,13 +208,7 @@ window.loadExam = async function(){
             <td>${d.SubjectName || ""}</td>
             <td>${formatDate(d.Date)}</td>
             <td>${d.Timing || ""}</td>
-            <td>
-                <button
-                    class="attend-btn"
-                    onclick="attendTest('${d.TestLink || ""}')">
-                    Attend Test
-                </button>
-            </td>
+            
         </tr>
         `;
     }
